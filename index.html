@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Raksha Bandhan!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* General Styling */
+        :root {
+            --primary-color: #ff4081;
+            --secondary-color: #ff80ab;
+            --background-color: #fce4ec;
+            --text-color: #333;
+            --glass-bg: rgba(255, 255, 255, 0.2);
+            --border-color: rgba(255, 255, 255, 0.4);
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--background-color), #f8bbd0);
+            color: var(--text-color);
+            margin: 0;
+            /* Add padding to the bottom to prevent ad from overlapping content */
+            padding: 20px 20px 70px 20px; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+            overflow-x: hidden;
+        }
+
+        /* Welcome Overlay for starting music */
+        #welcome-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            flex-direction: column;
+            color: white;
+            padding: 20px;
+        }
+
+        #enter-btn {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 15px 35px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(255, 64, 129, 0.5);
+            animation: pulse 2s infinite;
+        }
+
+        #enter-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 6px 25px rgba(255, 64, 129, 0.7);
+        }
+
+        /* Main Container with Glassmorphism Effect */
+        .container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 8px 32px 0 var(--shadow-color);
+            padding: 30px;
+            width: 100%;
+            max-width: 500px;
+            display: none; /* Initially hidden */
+        }
+        
+        .container.visible {
+            display: block;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Responsive GIF Image */
+        .header-gif {
+            width: 100%;
+            max-width: 250px;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px var(--shadow-color);
+            margin-bottom: 20px;
+        }
+
+        /* Festive Greeting Text */
+        .greeting-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--primary-color), #3f51b5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 2px 2px 15px rgba(255, 64, 129, 0.3);
+            animation: glow 2s ease-in-out infinite alternate;
+            margin-bottom: 10px;
+        }
+        
+        .greeting-text-hindi {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            margin-bottom: 25px;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 2px 2px 15px rgba(255, 64, 129, 0.3); }
+            to { text-shadow: 2px 2px 30px rgba(63, 81, 181, 0.5); }
+        }
+
+        /* Countdown Timer */
+        #countdown {
+            background: rgba(0, 0, 0, 0.05);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-around;
+            box-shadow: inset 0 2px 8px var(--shadow-color);
+        }
+
+        #countdown div { display: flex; flex-direction: column; }
+        #countdown span { font-size: 2rem; font-weight: 700; color: var(--primary-color); }
+        #countdown .label { font-size: 0.8rem; text-transform: uppercase; color: var(--text-color); }
+
+        /* Input and Button Styling */
+        .input-field {
+            width: calc(100% - 20px);
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.5);
+            font-size: 1rem;
+            color: var(--text-color);
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px var(--shadow-color);
+            transition: all 0.3s ease;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 10px rgba(255, 64, 129, 0.5);
+        }
+
+        .action-button {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 64, 129, 0.4);
+            animation: pulse 2s infinite;
+            margin-bottom: 20px;
+        }
+        
+        .action-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 64, 129, 0.6);
+            animation: none;
+        }
+
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+        
+        /* Custom Greeting Message */
+        #custom-greeting {
+            background: rgba(255, 255, 255, 0.7);
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-top: 10px;
+            min-height: 50px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.5s ease;
+            box-shadow: 0 2px 8px var(--shadow-color);
+        }
+        
+        /* WhatsApp Button */
+        .whatsapp-button {
+            background: #25D366;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+            text-decoration: none;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .whatsapp-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.6);
+        }
+        
+        .whatsapp-icon { width: 24px; height: 24px; }
+        
+        /* Audio Controls */
+        #audio-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1001; /* Above the main container */
+        }
+
+        #mute-toggle {
+            background: var(--glass-bg);
+            border: 1px solid var(--border-color);
+            color: var(--primary-color);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px var(--shadow-color);
+        }
+        
+        /* --- NEW: Ad Container Style --- */
+        .ad-container {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 320px;
+            height: 50px;
+            z-index: 9999; /* Highest z-index to stay on top */
+        }
+
+    </style>
+</head>
+<body>
+    
+    <!-- Welcome overlay to handle audio autoplay -->
+    <div id="welcome-overlay">
+        <h2>Raksha Bandhan Greetings</h2>
+        <p>Tap to start the celebration with music!</p>
+        <button id="enter-btn">✨ Click to Start ✨</button>
+    </div>
+
+    <div class="container">
+        <!-- 1. Centered and Responsive GIF -->
+        <img src="RakshaBandhan.gif" alt="Raksha Bandhan GIF" class="header-gif">
+
+        <!-- 2. Festive Greeting Text -->
+        <h1 class="greeting-text">✨ Happy Raksha Bandhan! ✨</h1>
+        <p class="greeting-text-hindi">आपको और आपके परिवार को रक्षाबंधन की हार्दिक शुभकामनाएँ!</p>
+
+        <!-- 3. Countdown Timer -->
+        <div id="countdown">
+            <div><span id="days">00</span><span class="label">Days</span></div>
+            <div><span id="hours">00</span><span class="label">Hours</span></div>
+            <div><span id="minutes">00</span><span class="label">Minutes</span></div>
+            <div><span id="seconds">00</span><span class="label">Seconds</span></div>
+        </div>
+
+        <!-- 4. User Name Input -->
+        <input type="text" id="name-input" class="input-field" placeholder="Enter your name...">
+
+        <!-- 5. Generate Wish Button -->
+        <button id="generate-btn" class="action-button">Generate Raksha Bandhan Wish</button>
+
+        <!-- Custom Greeting Display Area -->
+        <div id="custom-greeting"></div>
+        
+        <!-- 6. Share on WhatsApp Button -->
+        <a id="whatsapp-share-btn" class="whatsapp-button" href="#" target="_blank">
+            <svg class="whatsapp-icon" viewBox="0 0 24 24" fill="white"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.62 15.35 3.51 16.82L2 22L7.33 20.55C8.75 21.35 10.35 21.82 12.04 21.82C17.5 21.82 21.95 17.37 21.95 11.91C21.95 6.45 17.5 2 12.04 2ZM16.96 15.65C16.71 16.2 15.99 16.63 15.42 16.77C14.93 16.89 13.99 16.64 12.91 16.2C11.4 15.58 10.09 14.68 9.07 13.25C8.21 12.05 7.66 10.68 7.55 10.43C7.43 10.18 6.68 8.4 6.68 8.4S6.52 8.04 6.77 7.82C7.02 7.6 7.27 7.57 7.45 7.57C7.6 7.57 7.78 7.57 7.92 7.57C8.08 7.57 8.28 7.63 8.45 8.04C8.61 8.45 9.17 9.87 9.24 10C9.3 10.13 9.35 10.29 9.27 10.45C9.2 10.61 9.14 10.67 8.99 10.84C8.84 11.01 8.7 11.14 8.56 11.28C8.42 11.42 8.28 11.58 8.45 11.85C8.61 12.13 9.13 12.87 9.77 13.46C10.65 14.28 11.49 14.59 11.79 14.71C12.09 14.83 12.39 14.82 12.59 14.62C12.85 14.37 13.22 13.88 13.43 13.62C13.65 13.36 13.92 13.31 14.18 13.4C14.44 13.49 15.82 14.22 16.09 14.36C16.36 14.5 16.51 14.6 16.57 14.71C16.63 14.82 16.63 15.1 16.96 15.65Z" /></svg>
+            <span>Share on WhatsApp</span>
+        </a>
+    </div>
+
+    <!-- 7. Background Music -->
+    <audio id="background-music" src="song.mp3" loop></audio>
+    <div id="audio-container">
+        <button id="mute-toggle">🔊</button>
+    </div>
+
+    <!-- --- NEW: Ad Container with your Script --- -->
+    <div class="ad-container">
+        <script type="text/javascript">
+            atOptions = {
+                'key' : '355c8909fd3c1db699a857a0c27e5b83',
+                'format' : 'iframe',
+                'height' : 50,
+                'width' : 320,
+                'params' : {}
+            };
+        </script>
+        <script type="text/javascript" src="//www.highperformanceformat.com/355c8909fd3c1db699a857a0c27e5b83/invoke.js"></script>
+    </div>
+
+
+    <script>
+        // --- Element References ---
+        const welcomeOverlay = document.getElementById('welcome-overlay');
+        const enterBtn = document.getElementById('enter-btn');
+        const mainContainer = document.querySelector('.container');
+        const audio = document.getElementById('background-music');
+        const muteToggle = document.getElementById('mute-toggle');
+
+        // --- 7. Audio Autoplay and Controls ---
+        enterBtn.addEventListener('click', () => {
+            // Play audio - This is now allowed because it's triggered by user interaction
+            audio.play().catch(error => {
+                console.error("Audio playback failed:", error);
+            });
+            
+            // Fade out the overlay
+            welcomeOverlay.style.transition = 'opacity 0.5s ease';
+            welcomeOverlay.style.opacity = '0';
+            
+            // Show the main content after the overlay fades
+            setTimeout(() => {
+                welcomeOverlay.style.display = 'none';
+                mainContainer.classList.add('visible');
+            }, 500);
+        });
+
+        muteToggle.addEventListener('click', () => {
+            audio.muted = !audio.muted;
+            muteToggle.innerText = audio.muted ? '🔇' : '🔊';
+        });
+
+        // --- 3. Countdown Timer ---
+        const daysEl = document.getElementById('days');
+        const hoursEl = document.getElementById('hours');
+        const minutesEl = document.getElementById('minutes');
+        const secondsEl = document.getElementById('seconds');
+        const rakshaBandhanDate = new Date('August 9 2025 00:00:00').getTime();
+
+        const updateCountdown = () => {
+            const now = new Date().getTime();
+            const distance = rakshaBandhanDate - now;
+
+            if (distance < 0) {
+                document.getElementById('countdown').innerHTML = "<h2 class='greeting-text' style='font-size:1.5rem'>Happy Raksha Bandhan Today!</h2>";
+                clearInterval(countdownInterval);
+                return;
+            }
+
+            daysEl.innerText = String(Math.floor(distance / (1000 * 60 * 60 * 24))).padStart(2, '0');
+            hoursEl.innerText = String(Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
+            minutesEl.innerText = String(Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
+            secondsEl.innerText = String(Math.floor((distance % (1000 * 60)) / 1000)).padStart(2, '0');
+        };
+
+        const countdownInterval = setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // --- 5. & 6. Greeting Generation and Sharing ---
+        const generateBtn = document.getElementById('generate-btn');
+        const nameInput = document.getElementById('name-input');
+        const customGreetingEl = document.getElementById('custom-greeting');
+        const whatsappShareBtn = document.getElementById('whatsapp-share-btn');
+        let generatedMessage = "";
+
+        generateBtn.addEventListener('click', () => {
+            const name = nameInput.value.trim();
+            if (name === "") {
+                alert("Please enter your name!");
+                return;
+            }
+
+            generatedMessage = `Happy Raksha Bandhan from ${name}! 🎊 Wishing you happiness and blessings!`;
+            customGreetingEl.innerText = generatedMessage;
+            customGreetingEl.style.display = 'flex';
+            whatsappShareBtn.style.display = 'inline-flex';
+        });
+
+        whatsappShareBtn.addEventListener('click', (e) => {
+            if (generatedMessage) {
+                const pageUrl = window.location.href;
+                const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(generatedMessage + "\n\nCheck out this greeting: " + pageUrl)}`;
+                whatsappShareBtn.href = whatsappUrl;
+            } else {
+                e.preventDefault();
+                alert("Please generate a message first!");
+            }
+        });
+    </script>
+</body>
+</html>
